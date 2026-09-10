@@ -2,9 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#14181f">
 <title>Hariharan V — Python Full-Stack Developer</title>
 <meta name="description" content="Portfolio of Hariharan V, a BCA graduate and aspiring Python Full-Stack Developer based in Chennai.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hariharan V — Python Full-Stack Developer">
+<meta property="og:description" content="BCA graduate and aspiring Python Full-Stack Developer based in Chennai, building with Django, JavaScript and React.">
+<meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -26,15 +31,23 @@
     --maxw:1120px;
   }
 
-  *{margin:0;padding:0;box-sizing:border-box;}
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html{scroll-behavior:smooth;}
   body{
     font-family:'Inter',sans-serif;
     background:var(--paper);
     color:var(--ink);
     line-height:1.6;
+    font-size:16px;
     -webkit-font-smoothing:antialiased;
+    -webkit-text-size-adjust:100%;
     overflow-x:hidden;
+  }
+  @supports (padding: max(0px)){
+    .wrap,.nav-inner{
+      padding-left:max(32px, env(safe-area-inset-left));
+      padding-right:max(32px, env(safe-area-inset-right));
+    }
   }
   h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;line-height:1.15;letter-spacing:-0.01em;}
   a{color:inherit;text-decoration:none;}
@@ -56,10 +69,14 @@
   /* ---------- Nav ---------- */
   .nav{
     position:fixed;top:0;left:0;right:0;z-index:100;
-    background:rgba(20,24,31,0.92);
-    backdrop-filter:blur(8px);
     border-bottom:1px solid var(--line-dark);
     transition:padding .25s ease;
+  }
+  .nav::before{
+    content:"";position:absolute;inset:0;z-index:-1;
+    background:rgba(20,24,31,0.92);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
   }
   .nav-inner{
     max-width:var(--maxw);margin:0 auto;padding:0 32px;
@@ -69,8 +86,9 @@
   .nav.scrolled .nav-inner{height:60px;}
   .brand{
     font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.15rem;
-    color:#fff;display:flex;align-items:center;gap:9px;
+    color:#fff;display:flex;align-items:center;gap:9px;min-width:0;
   }
+  .brand-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .brand-mark{
     width:30px;height:30px;border:1.5px solid var(--amber);border-radius:var(--radius-s);
     display:flex;align-items:center;justify-content:center;
@@ -94,8 +112,8 @@
     transition:background .2s ease, transform .2s ease;
   }
   .nav-cta:hover{background:#e0a648;transform:translateY(-1px);}
-  .nav-toggle{display:none;color:#fff;width:26px;height:26px;}
-  .nav-toggle svg{width:100%;height:100%;}
+  .nav-toggle{display:none;color:#fff;width:44px;height:44px;align-items:center;justify-content:center;flex-shrink:0;margin-right:-9px;}
+  .nav-toggle svg{width:24px;height:24px;}
 
   @media (max-width:900px){
     .nav-links{
@@ -110,7 +128,7 @@
     .nav-links a.active::after{display:none;}
     .nav-links a.active{color:var(--amber);}
     .nav-cta{margin-top:18px;justify-content:center;}
-    .nav-toggle{display:block;}
+    .nav-toggle{display:flex;}
   }
 
   /* ---------- Hero ---------- */
@@ -225,6 +243,18 @@
   @media (max-width:420px){
     .stack-label{display:none;}
     .stack-sep{display:none;}
+    .hero-stack-strip{border-radius:14px;}
+    .stack-line{font-size:0.72rem;line-height:1.7;}
+  }
+  @media (max-width:480px){
+    .hero{padding:104px 0 44px;}
+    .hero-title{font-size:clamp(2.1rem, 9vw, 2.6rem);}
+    .hero-actions{flex-direction:column;align-items:stretch;}
+    .hero-actions .btn{justify-content:center;}
+  }
+  @media (max-height:700px) and (max-width:900px) and (orientation:landscape){
+    .hero{min-height:auto;padding:110px 0 40px;}
+    .hero-figure{max-width:170px;margin-bottom:18px;}
   }
 
   /* ---------- Sections generic ---------- */
@@ -245,9 +275,16 @@
     background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius-m);
     padding:26px 28px;
   }
+  @media (max-width:860px){
+    .about-grid{grid-template-columns:1fr;gap:36px;}
+  }
   .info-row{
     display:flex;justify-content:space-between;gap:16px;padding:13px 0;
     border-bottom:1px solid var(--line);font-size:0.93rem;
+  }
+  @media (max-width:400px){
+    .info-row{flex-direction:column;gap:4px;}
+    .info-value{text-align:left;}
   }
   .info-row:last-child{border-bottom:none;padding-bottom:0;}
   .info-row:first-child{padding-top:0;}
@@ -278,7 +315,7 @@
   /* ---------- Projects ---------- */
   .project-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);}
   .project-card{
-    background:var(--paper-raised);display:grid;grid-template-columns:220px 1fr;gap:0;
+    background:var(--paper-raised);display:grid;grid-template-columns:minmax(140px,220px) 1fr;gap:0;
     transition:background .2s ease;
   }
   .project-card:hover{background:#fbfaf6;}
@@ -369,8 +406,10 @@
   }
   .contact-icon svg{width:17px;height:17px;}
   .contact-row .clabel{font-size:0.78rem;color:var(--text-dim);margin-bottom:2px;}
-  .contact-row .cvalue{font-weight:600;font-size:0.98rem;}
+  .contact-row .cvalue{font-weight:600;font-size:0.98rem;word-break:break-word;}
   .contact-row a.cvalue:hover{color:var(--pine);}
+  .contact-row{min-width:0;}
+  .contact-row > div:last-child{min-width:0;}
 
   .contact-form{background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius-m);padding:30px;}
   .form-row{margin-bottom:18px;}
@@ -390,6 +429,9 @@
   /* ---------- Footer ---------- */
   footer{background:var(--ink);color:var(--text-dim-on-dark);padding:36px 0;border-top:1px solid var(--line-dark);}
   .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:0.85rem;}
+  @media (max-width:560px){
+    .footer-inner{flex-direction:column;text-align:center;gap:14px;}
+  }
   .footer-social{display:flex;gap:14px;}
   .footer-social a{color:var(--text-dim-on-dark);transition:color .2s ease;}
   .footer-social a:hover{color:#fff;}
@@ -404,19 +446,47 @@
   }
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
+  .skip-link{
+    position:absolute;left:16px;top:-60px;z-index:300;
+    background:var(--amber);color:var(--ink);font-weight:600;font-size:0.9rem;
+    padding:11px 18px;border-radius:var(--radius-s);transition:top .2s ease;
+  }
+  .skip-link:focus{top:16px;}
+
   @media (max-width:600px){
     .wrap{padding:0 20px;}
-    section{padding:70px 0;}
+    section{padding:64px 0;}
     .nav-inner{padding:0 20px;}
+    .section-head{margin-bottom:36px;}
+    .section-sub{font-size:0.96rem;}
+    .btn{width:100%;justify-content:center;}
+    .hero-actions .btn-ghost{width:auto;}
+    .project-body{padding:22px 18px;}
+    .project-top{gap:10px;}
+    .project-title{font-size:1.1rem;}
+    .skill-group{padding:22px 20px;}
+    .info-panel{padding:22px 20px;}
+    .contact-form{padding:22px 20px;}
+    .objective-quote{max-width:none;}
+    .cert-item{padding:14px 16px;}
+    .timeline{padding-left:28px;}
+    .timeline-item::before{left:-28px;}
+  }
+  @media (max-width:380px){
+    .hero-title{font-size:2rem;}
+    .brand{font-size:1.02rem;}
+    .brand-mark{width:26px;height:26px;font-size:0.7rem;}
   }
 </style>
 </head>
 <body>
 
+<a href="#home" class="skip-link">Skip to content</a>
+
 <!-- ============ NAV ============ -->
 <nav class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#home" class="brand"><span class="brand-mark">HV</span>Hariharan V</a>
+    <a href="#home" class="brand"><span class="brand-mark">HV</span><span class="brand-name">Hariharan V</span></a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#home" data-nav>Home</a></li>
       <li><a href="#about" data-nav>About</a></li>
@@ -427,7 +497,7 @@
       <li><a href="#contact" data-nav>Contact</a></li>
       <li><a href="Hariharan_V_Resume.pdf" class="nav-cta" download>Resume</a></li>
     </ul>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navLinks">
       <svg id="iconMenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       <svg id="iconClose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
@@ -792,14 +862,18 @@
   var iconClose = document.getElementById('iconClose');
   navToggle.addEventListener('click', function(){
     var open = nav.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     iconMenu.style.display = open ? 'none' : 'block';
     iconClose.style.display = open ? 'block' : 'none';
+    document.body.style.overflow = open ? 'hidden' : '';
   });
   document.querySelectorAll('#navLinks a').forEach(function(link){
     link.addEventListener('click', function(){
       nav.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
       iconMenu.style.display = 'block';
       iconClose.style.display = 'none';
+      document.body.style.overflow = '';
     });
   });
 
